@@ -98,20 +98,25 @@ map.on('load', function() {
       });
     });
 
-if (window.DeviceOrientationEvent) {
-  window.addEventListener('deviceorientation', function(event) {
-    var bearing;
-    if (event.absolute) {
-      bearing = event.alpha;
-    } else if (event.webkitCompassHeading) {
-      bearing = event.webkitCompassHeading;
-    }
+if ('ondeviceorientationabsolute' in window) {
+  // Chrome 50+ specific
+  window.addEventListener('deviceorientationabsolute', handleOrientation);
+} else if ('ondeviceorientation' in window) {
+  window.addEventListener('deviceorientation', handleOrientation);
+}
 
-    if (bearing) {
-      map.setPitch(event.beta);
-      map.setBearing(bearing);
-    }
-  });
+function handleOrientation(event) {
+  var bearing;
+  if (event.absolute) {
+    bearing = event.alpha;
+  } else if (event.webkitCompassHeading) {
+    bearing = event.webkitCompassHeading;
+  }
+
+  if (bearing) {
+    map.setPitch(event.beta);
+    map.setBearing(bearing);
+  }
 }
 
 })
