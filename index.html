@@ -1,0 +1,108 @@
+<!doctype html>
+
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <title>Helga 8 år</title>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.css' rel='stylesheet' />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<style>
+body {
+  margin: 0;
+  padding: 0;
+}
+#map {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.mapboxgl-ctrl-bottom-right {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+  <div id='map'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoibGFyc2ciLCJhIjoiY2o4b3FzanpwMDZodjJxbnR1dXR5eDZ4aCJ9.aWnIb6iW_MI7r2skIj6jiQ';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/larsg/cjjmiqqxz2fib2spjmmoqdq8c',
+    zoom: 15,
+    maxZoom: 17,
+    minZoom: 15,
+    center: [12.545863,55.692218]
+});
+const geolocateControl = new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      fitBoundsOptions: {
+        maxZoom: 15,
+      },
+      showUserLocation: true,
+    });
+
+    map.addControl(geolocateControl, 'bottom-right');
+
+map.on('load', function() {
+
+      // New versions of mapboxgl-js will have a trigger function instead
+      // https://github.com/mapbox/mapbox-gl-js/issues/5464
+      if (geolocateControl.trigger) {
+        geolocateControl.trigger();
+      } else {
+        setTimeout(() => geolocateControl._onClickGeolocate(), 1);
+      }
+
+      map.loadImage('https://vignette.wikia.nocookie.net/hardyboys/images/b/ba/Red_x.svg/revision/latest?cb=20090706050938', function(error, image) {
+        if (error) throw error;
+        map.addImage('cross', image);
+        map.addLayer({
+            "id": "points",
+            "type": "symbol",
+            "source": {
+                "type": "geojson",
+                "data": {
+                    "type": "FeatureCollection",
+                    "features": [{
+                        "type": "Feature",
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [12.547289935063787,55.690313091119265]
+                        }
+                    }]
+                }
+            },
+            "layout": {
+                "icon-image": "cross",
+                "icon-size": 0.2
+            }
+        });
+    });
+
+})
+
+map.on('click', function (e) {
+  console.log(JSON.stringify(e.lngLat));
+});
+
+/*
+map.addControl(new mapboxgl.GeolocateControl({
+    positionOptions: {
+        enableHighAccuracy: true
+    },
+    trackUserLocation: true
+}));
+*/
+</script>
+</body>
+</html>
