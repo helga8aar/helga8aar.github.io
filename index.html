@@ -144,6 +144,7 @@ window.addEventListener('deviceorientation', function(evt) {
   feedback.innerText = 'hit'
   if(evt.absolute === true && evt.alpha !== null) {
     heading = compassHeading(evt.alpha, evt.beta, evt.gamma);
+    feedback.innerText = 'heading ' + heading
     map.rotateTo(heading, {duration:1000});
   }
 
