@@ -39,33 +39,32 @@ var map = new mapboxgl.Map({
     attributionControl: false
 });
 
-const geolocateControl = new mapboxgl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-      fitBoundsOptions: {
-        maxZoom: 15,
-      },
-      showUserLocation: true,
-    });
-
-    map.addControl(geolocateControl, 'bottom-right');
 
 map.on('load', function() {
 
-      // New versions of mapboxgl-js will have a trigger function instead
-      // https://github.com/mapbox/mapbox-gl-js/issues/5464
-      if (geolocateControl.trigger) {
-        geolocateControl.trigger();
-      } else {
-        setTimeout(() => geolocateControl._onClickGeolocate(), 1);
+  map.addLayer({
+      "id": "userPosition",
+      "source": {
+          "type": "geojson",
+          "data": {
+              "type": "Point",
+              "coordinates": [
+                  0,
+                  0
+              ]
+          }
+      },
+      "type": "circle",
+      "paint": {
+          "circle-radius": 10,
+          "circle-color": "#ed4630"
       }
-
+  });
       map.loadImage('https://vignette.wikia.nocookie.net/hardyboys/images/b/ba/Red_x.svg/revision/latest?cb=20090706050938', function(error, image) {
         if (error) throw error;
         map.addImage('cross', image);
         map.addLayer({
-            "id": "points",
+            "id": "cross",
             "type": "symbol",
             "source": {
                 "type": "geojson",
@@ -85,6 +84,12 @@ map.on('load', function() {
                 "icon-size": 0.2
             }
         });
+    });
+    var watchID = navigator.geolocation.watchPosition(function(position) {
+      map.getSource('userPosition').setData({
+          "type": "Point",
+          "coordinates": [position.coords.longitude,position.coords.latitude]
+      });
     });
 
 })
