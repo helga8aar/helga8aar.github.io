@@ -96,6 +96,7 @@ map.on('load', function() {
           "type": "Point",
           "coordinates": [position.coords.longitude,position.coords.latitude]
       });
+      map.setCenter([position.coords.longitude,position.coords.latitude]);
     });
 
 if ('ondeviceorientationabsolute' in window) {
