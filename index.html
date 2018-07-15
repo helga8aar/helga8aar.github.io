@@ -22,11 +22,19 @@ body { margin:0; padding:0; }
 .mapboxgl-ctrl-bottom-right {
   display: none;
 }
+#feedback {
+  background-color: #fff;
+  padding: 10px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
 </style>
 </head>
 
 <body>
   <div id='map'></div>
+  <div id="feedback"></div>
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoibGFyc2ciLCJhIjoiY2o4b3FzanpwMDZodjJxbnR1dXR5eDZ4aCJ9.aWnIb6iW_MI7r2skIj6jiQ';
 var map = new mapboxgl.Map({
@@ -38,6 +46,8 @@ var map = new mapboxgl.Map({
     center: [12.545863,55.692218],
     attributionControl: false
 });
+
+var feedback = document.getElementById('feedback')
 
 
 map.on('load', function() {
@@ -86,6 +96,7 @@ map.on('load', function() {
         });
     });
     var watchID = navigator.geolocation.watchPosition(function(position) {
+      feedback.innerText = position.coords.longitude + ',' + position.coords.latitude
       map.getSource('userPosition').setData({
           "type": "Point",
           "coordinates": [position.coords.longitude,position.coords.latitude]
@@ -130,10 +141,10 @@ map.on('load', function() {
 
 window.addEventListener('deviceorientation', function(evt) {
   var heading = null;
-
+  feedback.innerText = 'hit'
   if(evt.absolute === true && evt.alpha !== null) {
     heading = compassHeading(evt.alpha, evt.beta, evt.gamma);
-    map.rotateTo(heading, {duration:1000}); 
+    map.rotateTo(heading, {duration:1000});
   }
 
   // Do something with 'heading'...
