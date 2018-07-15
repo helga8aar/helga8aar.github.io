@@ -112,7 +112,7 @@ if (window.DeviceOrientationEvent) {
       // Apple works only with this, alpha doesn't work
       compassdir = event.webkitCompassHeading;
     } else compassdir = event.alpha;
-    map.rotateTo(compassdir, {duration:1000});
+    map.rotateTo(compassdir);
     feedback.innerText = 'heading ' + compassdir
   });
 }
