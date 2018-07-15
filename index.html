@@ -139,18 +139,22 @@ map.on('load', function() {
 
 }
 
-window.addEventListener('deviceorientation', function(evt) {
-  var heading = null;
-  feedback.innerText = 'hit me ' + evt.absolute + ' ' + evt.alpha
-  if(evt.absolute === true && evt.alpha !== null) {
-    heading = compassHeading(evt.alpha, evt.beta, evt.gamma);
-    feedback.innerText = 'heading ' + heading
+
+
+
+if (window.DeviceOrientationEvent) {
+  // Listen for the deviceorientation event and handle the raw data
+  window.addEventListener('deviceorientation', function(eventData) {
+    var compassdir;
+
+    if(event.webkitCompassHeading) {
+      // Apple works only with this, alpha doesn't work
+      compassdir = event.webkitCompassHeading;
+    } else compassdir = event.alpha;
     map.rotateTo(heading, {duration:1000});
-  }
-
-  // Do something with 'heading'...
-
-}, false);
+    feedback.innerText = 'heading ' + heading
+  });
+}
 
 })
 
