@@ -141,7 +141,7 @@ map.on('load', function() {
 
 window.addEventListener('deviceorientation', function(evt) {
   var heading = null;
-  feedback.innerText = 'hit ' + evt.absolute
+  feedback.innerText = 'hit me ' + evt.absolute + ' ' + evt.alpha
   if(evt.absolute === true && evt.alpha !== null) {
     heading = compassHeading(evt.alpha, evt.beta, evt.gamma);
     feedback.innerText = 'heading ' + heading
