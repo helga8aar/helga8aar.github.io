@@ -101,10 +101,11 @@ map.on('load', function() {
 if (window.DeviceOrientationEvent) {
   // Listen for the deviceorientation event and handle the raw data
   window.addEventListener('deviceorientation', function(e) {
+    console.log(e);
     var alpha;
     if (e.absolute) {
       alpha = e.alpha;
-    } else if (e.hasOwnProperty('webkitCompassHeading')) {
+    } else if (e.webkitCompassHeading) {
       // get absolute orientation for Safari/iOS
       alpha = 360 - e.webkitCompassHeading; // conversion taken from a comment on Google Documentation, not tested
     }
