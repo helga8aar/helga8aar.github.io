@@ -34,7 +34,6 @@ body { margin:0; padding:0; }
 
 <body>
   <div id='map'></div>
-  <div id="feedback"></div>
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoibGFyc2ciLCJhIjoiY2o4b3FzanpwMDZodjJxbnR1dXR5eDZ4aCJ9.aWnIb6iW_MI7r2skIj6jiQ';
 var map = new mapboxgl.Map({
@@ -46,9 +45,6 @@ var map = new mapboxgl.Map({
     center: [12.545863,55.692218],
     attributionControl: false
 });
-
-var feedback = document.getElementById('feedback')
-
 
 map.on('load', function() {
 
@@ -96,7 +92,6 @@ map.on('load', function() {
         });
     });
     var watchID = navigator.geolocation.watchPosition(function(position) {
-      feedback.innerText = position.coords.longitude + ',' + position.coords.latitude
       map.getSource('userPosition').setData({
           "type": "Point",
           "coordinates": [position.coords.longitude,position.coords.latitude]
@@ -105,17 +100,19 @@ map.on('load', function() {
 
 if (window.DeviceOrientationEvent) {
   // Listen for the deviceorientation event and handle the raw data
-  window.addEventListener('deviceorientation', function(eventData) {
-    var compassdir;
+  window.addEventListener('deviceorientation', function(e) {
+    var alpha;
+    if (e.absolute) {
+      alpha = e.alpha;
+    } else if (e.hasOwnProperty('webkitCompassHeading')) {
+      // get absolute orientation for Safari/iOS
+      alpha = 360 - e.webkitCompassHeading; // conversion taken from a comment on Google Documentation, not tested
+    }
 
-    if(event.webkitCompassHeading) {
-      // Apple works only with this, alpha doesn't work
-      compassdir = event.webkitCompassHeading;
-    } else compassdir = event.alpha;
-
-    map.setPitch(event.beta);
-    map.setBearing(compassdir);
-    //feedback.innerText = 'heading ' + compassdir
+    if (alpha) {
+      map.setPitch(e.beta);
+      map.setBearing(alpha);
+    }
   });
 }
 
