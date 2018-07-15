@@ -113,9 +113,9 @@ if (window.DeviceOrientationEvent) {
       compassdir = event.webkitCompassHeading;
     } else compassdir = event.alpha;
 
-    map.setPitch(event.beta);
+    // map.setPitch(event.beta);
     map.rotateTo(compassdir, {duration:1000});
-    feedback.innerText = 'heading ' + compassdir
+    //feedback.innerText = 'heading ' + compassdir
   });
 }
 
