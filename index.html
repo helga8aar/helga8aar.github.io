@@ -4,121 +4,133 @@
 <head>
   <meta charset="utf-8">
   <title>Helga 8 år</title>
-      <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.js'></script>
-<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.css' rel='stylesheet' />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-<meta name="msapplication-TileColor" content="#da532c">
-<meta name="theme-color" content="#ffffff">
-<style>
-body { margin:0; padding:0; }
-#map { position:absolute; top:0; bottom:0; width:100%; }
-.mapboxgl-ctrl-bottom-left,
-.mapboxgl-ctrl-bottom-right {
-  display: none;
-}
-#feedback {
-  background-color: #fff;
-  padding: 10px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.css' rel='stylesheet' />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <style>
+  body { margin:0; padding:0; }
+  #map { position:absolute; top:0; bottom:0; width:100%; }
+  .mapboxgl-ctrl-bottom-left,
+  .mapboxgl-ctrl-bottom-right {
+    display: none;
+  }
+  #feedback {
+    background-color: #fff;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
 </style>
 </head>
 
 <body>
   <div id='map'></div>
-<script>
-mapboxgl.accessToken = 'pk.eyJ1IjoibGFyc2ciLCJhIjoiY2o4b3FzanpwMDZodjJxbnR1dXR5eDZ4aCJ9.aWnIb6iW_MI7r2skIj6jiQ';
-var map = new mapboxgl.Map({
+  <script>
+  // mapboxgl.accessToken = 'pk.eyJ1IjoibGFyc2ciLCJhIjoiY2o4b3FzanpwMDZodjJxbnR1dXR5eDZ4aCJ9.aWnIb6iW_MI7r2skIj6jiQ';
+  var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/larsg/cjjmiqqxz2fib2spjmmoqdq8c',
-    zoom: 15,
-    maxZoom: 17,
-    minZoom: 15,
-    center: [12.545863,55.692218],
-    attributionControl: false
+    style: 'https://maps.tilehosting.com/styles/topo/style.json?key=pJHIgAvM7z6i0dUgsD9c',
+    center: [9.65889, 46.62402],
+    zoom: 10.84
+  });
+
+  /*
+  var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/larsg/cjjmiqqxz2fib2spjmmoqdq8c',
+  zoom: 15,
+  maxZoom: 17,
+  minZoom: 15,
+  center: [12.545863,55.692218],
+  attributionControl: false
 });
+*/
 
 map.on('load', function() {
 
   map.addLayer({
-      "id": "userPosition",
-      "source": {
-          "type": "geojson",
-          "data": {
-              "type": "Point",
-              "coordinates": [
-                  0,
-                  0
-              ]
-          }
-      },
-      "type": "circle",
-      "paint": {
-          "circle-radius": 10,
-          "circle-color": "#ed4630"
+    "id": "userPosition",
+    "source": {
+      "type": "geojson",
+      "data": {
+        "type": "Point",
+        "coordinates": [
+          0,
+          0
+        ]
       }
+    },
+    "type": "circle",
+    "paint": {
+      "circle-radius": 10,
+      "circle-color": "#e25041"
+    }
   });
-      map.loadImage('https://vignette.wikia.nocookie.net/hardyboys/images/b/ba/Red_x.svg/revision/latest?cb=20090706050938', function(error, image) {
-        if (error) throw error;
-        map.addImage('cross', image);
-        map.addLayer({
-            "id": "cross",
-            "type": "symbol",
-            "source": {
-                "type": "geojson",
-                "data": {
-                    "type": "FeatureCollection",
-                    "features": [{
-                        "type": "Feature",
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [12.547289935063787,55.690313091119265]
-                        }
-                    }]
-                }
-            },
-            "layout": {
-                "icon-image": "cross",
-                "icon-size": 0.2
+  /*
+  map.loadImage('https://vignette.wikia.nocookie.net/hardyboys/images/b/ba/Red_x.svg/revision/latest?cb=20090706050938', function(error, image) {
+    if (error) throw error;
+    map.addImage('cross', image);
+    map.addLayer({
+      "id": "cross",
+      "type": "symbol",
+      "source": {
+        "type": "geojson",
+        "data": {
+          "type": "FeatureCollection",
+          "features": [{
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [12.547289935063787,55.690313091119265]
             }
-        });
+          }]
+        }
+      },
+      "layout": {
+        "icon-image": "cross",
+        "icon-size": 0.2
+      }
     });
-    var watchID = navigator.geolocation.watchPosition(function(position) {
-      map.getSource('userPosition').setData({
-          "type": "Point",
-          "coordinates": [position.coords.longitude,position.coords.latitude]
-      });
-      map.setCenter([position.coords.longitude,position.coords.latitude]);
+  });
+  */
+
+  var watchID = navigator.geolocation.watchPosition(function(position) {
+    map.getSource('userPosition').setData({
+      "type": "Point",
+      "coordinates": [position.coords.longitude,position.coords.latitude]
     });
+    map.setCenter([position.coords.longitude,position.coords.latitude]);
+  });
 
-if ('ondeviceorientationabsolute' in window) {
-  // Chrome 50+ specific
-  window.addEventListener('deviceorientationabsolute', handleOrientation);
-} else if ('ondeviceorientation' in window) {
-  window.addEventListener('deviceorientation', handleOrientation);
-}
-
-function handleOrientation(event) {
-  var bearing;
-  if (event.absolute) {
-    bearing = event.alpha;
-  } else if (event.webkitCompassHeading) {
-    bearing = event.webkitCompassHeading;
+  if ('ondeviceorientationabsolute' in window) {
+    // Chrome 50+ specific
+    window.addEventListener('deviceorientationabsolute', handleOrientation);
+  } else if ('ondeviceorientation' in window) {
+    window.addEventListener('deviceorientation', handleOrientation);
   }
 
-  if (bearing) {
-    map.setPitch(event.beta);
-    map.setBearing(bearing);
+  function handleOrientation(event) {
+    var bearing;
+    if (event.absolute) {
+      bearing = event.alpha;
+    } else if (event.webkitCompassHeading) {
+      bearing = event.webkitCompassHeading;
+    }
+
+    if (bearing) {
+      map.setPitch(event.beta);
+      map.setBearing(bearing);
+    }
   }
-}
 
 })
 
